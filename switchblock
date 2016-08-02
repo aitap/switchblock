@@ -1,0 +1,42 @@
+#!/bin/busybox ash
+set -e
+# use only full paths for non-builtins to avoid problems when only memlocked programs are available
+DMSETUP=/sbin/dmsetup
+GETSIZE="/sbin/blockdev --getsz"
+
+case $# in
+1)
+	mode=destroy
+	;;
+2)
+	if ! [ -n "$2" ]; then
+		mode=freeze
+	else
+		mode=set
+	fi
+	;;
+*)
+	echo "Usage: $0 <mapper device> <source of the mapping>"
+	exit 1
+	;;
+esac
+
+device="$1"
+target="$2"
+
+case $mode in
+set)
+	if ! $DMSETUP info "$device" >/dev/null 2>&1; then
+		# no such device
+		$DMSETUP create "$device" --notable
+	fi
+	$DMSETUP load "$device" --table "0 $($GETSIZE "$target") linear $target 0"
+	$DMSETUP resume "$device"
+	;;
+freeze)
+	$DMSETUP suspend --nolockfs --noflush "$device"
+	;;
+destroy)
+	$DMSETUP remove --deferred "$device"
+	;;
+esac
