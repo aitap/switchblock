@@ -34,6 +34,12 @@ fi
 # assume UUID if target isn't a file
 [ -f "$target" ] || target="/dev/disk/by-uuid/$target"
 
+if ! [ -f "$target" ]; then
+	echo "$0: $target does not exist" >&2
+	# must be called from initamfs with an unplugged device
+	exit 0
+fi
+
 case "$mode" in
 -s) # set
 	if ! $DMSETUP info "$device" >/dev/null 2>&1; then
