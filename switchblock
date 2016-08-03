@@ -4,39 +4,50 @@ set -e
 DMSETUP=/sbin/dmsetup
 GETSIZE="/sbin/blockdev --getsz"
 
-case $# in
-1)
-	mode=destroy
-	;;
-2)
-	if ! [ -n "$2" ]; then
-		mode=freeze
-	else
-		mode=set
-	fi
-	;;
-*)
-	echo "Usage: $0 <mapper device> <source of the mapping>"
-	exit 1
-	;;
-esac
+mode="$1"
+device="$2"
+target="$3"
 
-device="$1"
-target="$2"
+getdev() {
+	look_for="$1"
+	while read dev tgt; do
+		if [ "$tgt" = "$look_for" ]; then
+			echo "$dev";
+			return
+		fi
+	done < /etc/switchblocktab
+}
 
-case $mode in
-set)
+if [ "$mode" = "-r" ]; then
+	exec $DMSETUP remove --deferred "$device"
+fi
+
+# given only a target (from udev rules), find device name in the table
+if ! [ -n "$device" ]; then
+	# empty target (from udev?) => can't work
+	[ -n "$target" ] || exit 0
+	device="$(getdev "$target")"
+	# no device found? target not ours
+	[ -n "$device" ] || exit 0
+fi
+
+# assume UUID if target isn't a file
+[ -f "$target" ] || target="/dev/disk/by-uuid/$target"
+
+case "$mode" in
+-s) # set
 	if ! $DMSETUP info "$device" >/dev/null 2>&1; then
-		# no such device
+		# create if not exists
 		$DMSETUP create "$device" --notable
 	fi
 	$DMSETUP load "$device" --table "0 $($GETSIZE "$target") linear $target 0"
 	$DMSETUP resume "$device"
 	;;
-freeze)
-	$DMSETUP suspend --nolockfs --noflush "$device"
+-f) # freeze
+	# user may call switchblock -r if they don't want the device anymore
+	$DMSETUP info "$device" >/dev/null 2>&1 && $DMSETUP suspend --nolockfs --noflush "$device"
 	;;
-destroy)
-	$DMSETUP remove --deferred "$device"
+*)
+	exit 1
 	;;
 esac
