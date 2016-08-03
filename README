@@ -1,3 +1,12 @@
+/etc/switchblocktab should consist of lines "<device name> <target uuid>". Comments are not allowed.
+
+Usage: /lib/udev/switchblock <-r|-s|-f> <device> <target>
+<target>: UUID or path to block device you want to use as current back-end of your logical device.
+<device>: name of the logical device in /dev/mapper/ directory. Can be left blank if <target> is specified in /etc/switchblocktab
+-s: set a logical device to use specified target, optionally creating one.
+-f: freeze a device because its backend target was removed.
+-r: remove a logical device.
+
 How to use:
 1) install memlockd and add memlockd_switchblock.conf to its configuration
 2) write an /etc/switchblocktab consisting of lines "<name> <uuid>"
