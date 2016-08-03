@@ -32,12 +32,11 @@ if ! [ -n "$device" ]; then
 fi
 
 # assume UUID if target isn't a file
-[ -f "$target" ] || target="/dev/disk/by-uuid/$target"
+[ -e "$target" ] || target="/dev/disk/by-uuid/$target"
 
-if ! [ -f "$target" ]; then
-	echo "$0: $target does not exist" >&2
-	# must be called from initamfs with an unplugged device
-	exit 0
+if ! [ -e "$target" ]; then
+	echo "$0: $target doesn't exist" >&2
+	exit 1
 fi
 
 case "$mode" in
