@@ -1,7 +1,7 @@
 How to use:
 1) install memlockd and add memlockd_switchblock.conf to its configuration
 2) write an /etc/switchblocktab consisting of lines "<name> <uuid>"
-3) install udev rule to /lib/udev/rules.d/61-switchblock-activation.rules
+3) install udev rule to /lib/udev/rules.d/61-switchblock-activation.rules and the switchblock script to /lib/udev/
 3) put initramfs-tools hook to /etc/initramfs-tools/hooks/local-top/
 4) fix your fstab to point to /dev/mapper/<name> instead of UUID=<uuid>
 5) update-initramfs and update-grub
@@ -10,3 +10,8 @@ How to use:
 Next time the USB thumbdrive/harddrive loses power and decides to reinitialize itself you won't have to reboot and wait for fsck to clean up the mess.
 
 The feature is inspired by a similar one in WinToGo.
+
+If you're building a liveusb,
+1) from your initramfs, once you locate the thumbdrive, unmount it and remember its UUID
+2) run switchblock script to create the logical device, mount it and setup tmpfs overlay as usual
+3) before switching root fs, generate /etc/switchblocktab inside it
