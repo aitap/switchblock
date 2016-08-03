@@ -40,6 +40,8 @@ fi
 
 case "$mode" in
 -s) # set
+	# avoid setting device to itself when udev sees it
+	[ "$(readlink -f "/dev/mapper/$device")" = "$(readlink -f "$target")" ] && exit 0
 	if ! $DMSETUP info "$device" >/dev/null 2>&1; then
 		# create if not exists
 		$DMSETUP create "$device" --notable

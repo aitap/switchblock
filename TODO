@@ -1,10 +1,4 @@
-error messages; harmless:
-[   14.738210] device-mapper: table: 254:0: linear: dm-linear: Device lookup failed
-[   14.738279] device-mapper: ioctl: error adding target to table
-
----
-
-on recovery, a new device shows up and is offered for mounting
+target devices are still offered for mounting
 => set attributes to shield it from udisks?
 
 ---
