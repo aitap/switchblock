@@ -16,5 +16,6 @@ esac
 
 copy_exec /sbin/dmsetup /sbin
 copy_exec /sbin/blockdev /sbin
-cp /lib/udev/switchblock "${DESTDIR}/sbin"
-cp /etc/switchblocktab "${DESTDIR}/etc"
+cp /lib/udev/rules.d/61-switchblock-activation.rules "${DESTDIR}/lib/udev/rules.d/"
+cp /lib/udev/switchblock "${DESTDIR}/lib/udev/"
+cp /etc/switchblocktab "${DESTDIR}/etc/"
