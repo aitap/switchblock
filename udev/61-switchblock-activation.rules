@@ -1,2 +1,2 @@
-ACTION=="add", SUBSYSTEM=="block", RUN+="/lib/udev/switchblock -s '' '%E{ID_FS_UUID}'"
-ACTION=="remove", SUBSYSTEM=="block", RUN+="/lib/udev/switchblock -f '' '%E{ID_FS_UUID}'"
+ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_UUID}=="?*", RUN+="/lib/udev/switchblock -s '' '%E{ID_FS_UUID}'"
+ACTION=="remove", SUBSYSTEM=="block", ENV{ID_FS_UUID}=="?*", RUN+="/lib/udev/switchblock -f '' '%E{ID_FS_UUID}'"

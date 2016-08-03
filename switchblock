@@ -22,10 +22,8 @@ if [ "$mode" = "-r" ]; then
 	exec $DMSETUP remove --deferred "$device"
 fi
 
-# given only a target (from udev rules), find device name in the table
+# given only a target (when called from udev rules), find device name in switchblocktab
 if ! [ -n "$device" ]; then
-	# empty target (from udev?) => can't work
-	[ -n "$target" ] || exit 0
 	device="$(getdev "$target")"
 	# no device found? target not ours
 	[ -n "$device" ] || exit 0
