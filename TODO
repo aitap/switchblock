@@ -1,7 +1,2 @@
 target devices are still offered for mounting
-=> set attributes to shield it from udisks?
-
----
-
-debianize, at least
-=> create dh scripts
+=> set udev attributes to shield it from udisks?
