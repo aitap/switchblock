@@ -1,0 +1,19 @@
+#!/bin/sh -e
+PREREQ=""
+prereqs()
+{
+	echo "$PREREQ"
+}
+
+case $1 in
+prereqs)
+	prereqs
+	exit 0
+	;;
+esac
+
+. /scripts/functions
+
+while read dev target; do
+	/sbin/switchblock "$dev" "$target"
+done < /etc/switchblocktab
