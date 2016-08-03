@@ -1,0 +1,5 @@
+/debian/docs
+/debian/files
+/debian/switchblock.debhelper.log
+/debian/switchblock.substvars
+/debian/switchblock/

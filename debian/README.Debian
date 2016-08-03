@@ -1,0 +1,10 @@
+switchblock for Debian
+-----------------
+After you install the package,
+0) make sure memlockd is enabled
+1) write a valid /etc/switchblocktab
+2) replace UUIDs with /dev/mapper/... in /etc/fstab
+3) update-initramfs to incorporate switchblocktab
+4) update-grub to fix root=... kernel parameter
+5) reboot
+-- Ivan Krylov <krylov.r00t@gmail.com>, Thu, 04 Aug 2016 00:56:07 +0300
