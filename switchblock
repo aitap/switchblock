@@ -1,5 +1,6 @@
 #!/bin/busybox ash
 set -e
+
 # use only full paths for non-builtins to avoid problems when only memlocked programs are available
 DMSETUP=/sbin/dmsetup
 GETSIZE="/sbin/blockdev --getsz"
@@ -12,7 +13,7 @@ getdev() {
 	look_for="$1"
 	while read dev tgt; do
 		if [ "$tgt" = "$look_for" ]; then
-			echo "$dev";
+			echo "$dev"
 			return
 		fi
 	done < /etc/switchblocktab
