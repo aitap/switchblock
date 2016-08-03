@@ -1,0 +1,4 @@
+bin/switchblock lib/udev
+initramfs/switchblock usr/share/initramfs-tools/hooks
+udev/61-switchblock-activation.rules lib/udev/rules.d
+memlockd/switchblock.cfg etc/memlockd.d

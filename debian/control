@@ -1,0 +1,16 @@
+Source: switchblock
+Section: utils
+Priority: extra
+Maintainer: Ivan Krylov <krylov.r00t@gmail.com>
+Build-Depends: debhelper (>=9)
+Standards-Version: 3.9.4
+Homepage: https://github.com/aitap/switchblock/
+
+Package: switchblock
+Architecture: all
+Depends: ${misc:Depends}, udev, memlockd, dmsetup, util-linux
+Description: Block device with transparently changeable target
+ A system booted from USB device may become unresponsive and in need of
+ fsck if something disrupts the connection, even temporarily. This set
+ of scripts prevents this by setting a logical device and switching its
+ target once it is plugged back.
