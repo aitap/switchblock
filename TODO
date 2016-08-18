@@ -1,2 +1,6 @@
 target devices are still offered for mounting
 => set udev attributes to shield it from udisks?
+
+FIXME: some WTF happens on suspend with switchblock as / and USB harddrive as target and everything hangs
+
+TODO: use CONFIG_DM_SWITCH when it stops being experimental
